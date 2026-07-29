@@ -47,6 +47,7 @@ docker run --rm hello-world
 Expected result: a Docker version is printed and the second command displays `Hello from Docker!`.
 
 **Evidence — Docker version**
+<img width="630" height="72" alt="docker install vesion" src="https://github.com/user-attachments/assets/78259e67-dade-470a-9218-b0d4175965ec" />
 
 ![Docker version output](<docker install vesion.png>)
 
