@@ -47,6 +47,9 @@ Expected result: a Docker version is printed and the second command displays `He
 **Evidence — Docker version**
 
 ![Docker version output](./docker%20install%20vesion.png)
+
+
+
 <img width="630" height="72" alt="docker-install-version" src="https://github.com/user-attachments/assets/bf2c1657-24ec-4ad6-bebe-bbe36a2ea434" />
 
 
@@ -54,6 +57,8 @@ Expected result: a Docker version is printed and the second command displays `He
 **Evidence — Docker container test**
 
 ![Docker hello-world output](./docker%20run%20hello%20world.png)
+
+
 <img width="642" height="507" alt="docker-run-hello-world" src="https://github.com/user-attachments/assets/d058e706-ee55-4e9d-9621-3c85a41bb16a" />
 
 
@@ -82,6 +87,8 @@ Expected result: an `aws-cli/2.x` version is printed.
 **Evidence — AWS CLI v2 installed**
 
 ![AWS CLI version output](./AWS%20install%20version.png
+
+
 <img width="607" height="80" alt="aws-install-version" src="https://github.com/user-attachments/assets/c90316f5-2de3-457a-8e6e-397a1971be6c" />
 
 
@@ -119,7 +126,11 @@ Expected result: both commands print client version information.
 **Evidence — kind and kubectl installed**
 
 ![kind and kubectl version output](./kind%20&%20kuberctl%20version.png)
+
+
 <img width="395" height="192" alt="kind-kubectl-version" src="https://github.com/user-attachments/assets/9c567a1e-8d81-420e-b5b7-06ee71f8418d" />
+
+
 <img width="641" height="532" alt="kind-cluster-version" src="https://github.com/user-attachments/assets/dcb80f7d-b12e-41c5-bdcb-27ef28df5e98" />
 
 
@@ -161,6 +172,8 @@ Expected result: OpenSSL and oathtool print their versions. The supplied environ
 
 ![OpenSSL, oathtool, and Trivy version output](./Helper%20Tools%20(OpenSSL,%20oathtool,%20Trivy)%20version.png)
 
+
+
 <img width="640" height="356" alt="helper-tools-version" src="https://github.com/user-attachments/assets/c997c1be-f159-428a-b19c-2ca86e0716e8" />
 
 
@@ -175,7 +188,11 @@ docker pull localstack/localstack:3.8
 
 **Evidence — LocalStack image `3.8` pulled**
 
+
+
 ![LocalStack 3.8 image pull output](./docker%20pull%20lab%20enviroment.png)
+
+
 
 <img width="670" height="522" alt="docker-pull-lab-environment" src="https://github.com/user-attachments/assets/eaabc891-17a5-4c87-834a-0b84f25ad9d9" />
 
@@ -183,7 +200,11 @@ docker pull localstack/localstack:3.8
 
 **Additional evidence — LocalStack latest image pulled**
 
+
+
 ![LocalStack latest image pull output](./Screenshot%202026-07-28%20195421.png)
+
+
 
 Start LocalStack using the guide command, then check its health endpoint:
 
@@ -197,6 +218,8 @@ Expected result: the health request returns JSON showing LocalStack services are
 **Evidence — LocalStack health response**
 
 ![LocalStack health-check output](./Screenshot%202026-07-29%20194112.png)
+
+
 <img width="647" height="252" alt="localstack-health" src="https://github.com/user-attachments/assets/00e73d7c-3864-44d7-900d-3d57b067bb95" />
 
 
