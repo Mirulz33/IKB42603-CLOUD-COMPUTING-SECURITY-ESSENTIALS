@@ -47,10 +47,14 @@ docker run --rm hello-world
 Expected result: a Docker version is printed and the second command displays `Hello from Docker!`.
 
 **Evidence — Docker version**
+<img width="630" height="72" alt="docker install vesion" src="https://github.com/user-attachments/assets/5388f7de-ea41-4d4c-b212-8668eca54421" />
+
 
 ![Docker version output](<docker install vesion.png>)
 
 **Evidence — Docker container test**
+<img width="642" height="507" alt="docker run hello world" src="https://github.com/user-attachments/assets/3221078e-ca70-40e7-9e75-ae506f22fc90" />
+
 
 ![Docker hello-world output](<docker run hello world.png>)
 
@@ -76,6 +80,8 @@ aws --version
 Expected result: an `aws-cli/2.x` version is printed.
 
 **Evidence — AWS CLI v2 installed**
+
+<img width="607" height="80" alt="image" src="https://github.com/user-attachments/assets/340b89c6-6f03-4c52-b3fa-dc5f5ce77aa1" />
 
 ![AWS CLI version output](<AWS install version.png>)
 
@@ -110,6 +116,7 @@ kubectl version --client
 Expected result: both commands print client version information.
 
 **Evidence — kind and kubectl installed**
+<img width="395" height="192" alt="image" src="https://github.com/user-attachments/assets/89f20ae8-f9a3-458a-8646-dffd21f27fd8" />
 
 ![kind and kubectl version output](<kind & kuberctl version.png>)
 
@@ -146,6 +153,8 @@ Expected result: OpenSSL and oathtool print their versions. The supplied environ
 
 **Evidence — helper tools available**
 
+<img width="640" height="356" alt="image" src="https://github.com/user-attachments/assets/32b6b781-aee4-4e81-b04c-89a3635b4c50" />
+
 ![OpenSSL, oathtool, and Trivy version output](<Helper Tools (OpenSSL, oathtool, Trivy) version.png>)
 
 ## 5. Prepare, start, and verify LocalStack
@@ -157,10 +166,13 @@ docker pull localstack/localstack:3.8
 ```
 
 **Evidence — LocalStack image `3.8` pulled**
+<img width="670" height="522" alt="image" src="https://github.com/user-attachments/assets/2057557d-886b-4e8c-af0e-01bdea5ccabd" />
 
 ![LocalStack 3.8 image pull output](<docker pull lab enviroment.png>)
 
 **Additional evidence — LocalStack latest image pulled**
+
+<img width="632" height="197" alt="image" src="https://github.com/user-attachments/assets/28f61643-4c50-44a4-a488-c39b184ae729" />
 
 ![LocalStack latest image pull output](<Screenshot 2026-07-28 195421.png>)
 
@@ -174,6 +186,7 @@ curl http://localhost:4566/_localstack/health
 Expected result: the health request returns JSON showing LocalStack services are available.
 
 **Evidence — LocalStack health response**
+<img width="647" height="252" alt="image" src="https://github.com/user-attachments/assets/491f3c16-69bb-45bf-b7c5-9930fca734a5" />
 
 ![LocalStack health-check output](<Screenshot 2026-07-29 194112.png>)
 
@@ -201,6 +214,7 @@ aws $EP sts get-caller-identity
 Expected result: `sts get-caller-identity` returns an identity, proving that AWS CLI is communicating with LocalStack.
 
 **Evidence — AWS CLI configuration and LocalStack identity test**
+<img width="487" height="371" alt="image" src="https://github.com/user-attachments/assets/9de84012-7602-4d13-bee7-c65e5a505bd0" />
 
 ![AWS CLI configured for LocalStack and identity returned](<AWS CLI Configuration.png>)
 
@@ -217,6 +231,7 @@ kubectl get nodes
 Expected result: the `ccse-control-plane` node is listed with status `Ready`.
 
 **Evidence — kind cluster created and node ready**
+<img width="641" height="532" alt="image" src="https://github.com/user-attachments/assets/8f2fe9d7-8b63-4090-b402-1451d1e2a937" />
 
 ![kind cluster creation, cluster info, and node status](<Kubernetes cluster (kind) version.png>)
 
