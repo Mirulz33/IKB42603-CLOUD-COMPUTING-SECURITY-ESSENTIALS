@@ -57,7 +57,9 @@ Expected result: a Docker version is printed and the second command displays `He
 <img width="642" height="507" alt="docker run hello world" src="https://github.com/user-attachments/assets/3221078e-ca70-40e7-9e75-ae506f22fc90" />
 
 
+
 ![Docker hello-world output](<docker run hello world.png>)
+
 
 ## 2. Install and verify AWS CLI v2
 
@@ -238,7 +240,9 @@ Expected result: the `ccse-control-plane` node is listed with status `Ready`.
 
 **Evidence — kind cluster created and node ready**
 
+
 <img width="641" height="532" alt="image" src="https://github.com/user-attachments/assets/8f2fe9d7-8b63-4090-b402-1451d1e2a937" />
+
 
 ![kind cluster creation, cluster info, and node status](<Kubernetes cluster (kind) version.png>)
 
