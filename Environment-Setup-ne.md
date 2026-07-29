@@ -1,4 +1,10 @@
 # Lab 0: Environment Setup
+Course Information
+
+Course: IKB42603 Cloud Computing Security Essentials
+Lab: Lab 0 - Environment Setup
+Name: Muhamed Hamirul Bin Mohd Bazri
+Date: 30 July 2026
 
 ## Objective
 To successfully set up the local development environment required for IKB42603 Cloud Computing Security Essentials labs, ensuring all necessary tools (Docker, AWS CLI, kind, kubectl, and helper tools) are installed and configured correctly.
