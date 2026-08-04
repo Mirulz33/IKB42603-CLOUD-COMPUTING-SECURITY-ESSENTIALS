@@ -3,6 +3,16 @@
 ## Objective
 To understand and apply the principles of cloud account security, identity governance, and least privilege using LocalStack (an AWS simulator) and Kubernetes RBAC.
 
+Course Information
+
+Course: IKB42603 Cloud Computing Security Essentials
+
+Lab: Lab 1 - Account Security, Identity & Access Management Report
+
+Name: Muhamed Hamirul Bin Mohd Bazri
+
+Date: 4 August 2026
+
 ## Learning Outcomes
 1. Stand up a local cloud lab using Docker and LocalStack.
 2. Apply the principle of least privilege by replacing root usage with scoped IAM users, groups, and policies.
