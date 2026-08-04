@@ -24,62 +24,107 @@ To understand and apply the principles of cloud account security, identity gover
 
 | Concept | AWS term | Purpose |
 | :--- | :--- | :--- |
-| All-powerful owner | Root user | The absolute owner of the account with complete, unrestricted access to all resources and billing. It should not be used for daily tasks. |
-| Human/app identity | IAM User | Represents a specific person or application that needs to interact with AWS services, using long-term credentials. |
-| Permission bundle | IAM Policy | A document (usually in JSON) that explicitly defines permissions, detailing what actions are allowed or denied on which resources. |
-| Collection of users | IAM Group | A logical collection of IAM users that allows you to easily manage and apply the same policies/permissions to multiple users at once. |
-| Temporary identity | IAM Role | An identity with temporary credentials that can be assumed by anyone who needs it (users, apps, or AWS services) for a specific duration. |
+| All-powerful owner | Root user | Has full access to all AWS services and settings. |
+| Human/app identity | IAM User | Represents a person or application that can log in and use AWS. |
+| Permission bundle | IAM Policy | Defines what actions are allowed or denied. |
+| Collection of users | IAM Group | A collection of IAM users that allows you to easily manage and apply the same policies/permissions to multiple users at once. |
+| Temporary identity | IAM Role | Provides temporary permissions to users or services when needed. |
 
 ### Task 2 — Create a Least-Privilege Admin (Stop Using Root)
 The root user is a liability, so a dedicated admin identity was created and granted permissions through a group instead of directly to the user.
 
 ![Task 2 — Create a Least-Privilege Admin (Stop Using Root) part 1](Task%202%20—%20Create%20a%20Least-Privilege%20Admin%20(Stop%20Using%20Root)%20part%201.png)
 
+<img width="561" height="562" alt="Task 2 — Create a Least-Privilege Admin (Stop Using Root) part 1" src="https://github.com/user-attachments/assets/a85cd7f6-2d5d-49f0-b452-424e5d1472e8" />
+
+
+
+
 ![Task 2 — Create a Least-Privilege Admin (Stop Using Root) part 2](Task%202%20—%20Create%20a%20Least-Privilege%20Admin%20(Stop%20Using%20Root)%20part%202.png)
+
+<img width="607" height="395" alt="Task 2 — Create a Least-Privilege Admin (Stop Using Root) part 2" src="https://github.com/user-attachments/assets/17840d20-6f16-4283-b3ef-9848adc3b9b6" />
+
+
+
 
 ### Task 3 — Enforce Least Privilege with a Scoped Policy
 A read-only user account was created to demonstrate fine-grained authorization.
 
 ![Task 3 — Enforce Least Privilege with a Scoped Policy](Task%203%20—%20Enforce%20Least%20Privilege%20with%20a%20Scoped%20Policy.png)
 
+<img width="607" height="395" alt="Task 3 — Enforce Least Privilege with a Scoped Policy" src="https://github.com/user-attachments/assets/eea57500-2f1d-48b5-8eb7-9fbbc8c9ac07" />
+
+
+
 ### Task 4 — Credential Hygiene & Access Keys
 Programmatic access uses access keys. In this task, long-lived access keys were created, listed, and rotated (deactivated) to practice credential hygiene.
 
 ![Task 4 — Credential Hygiene & Access Keys](Task%204%20—%20Credential%20Hygiene%20&%20Access%20Keys.png)
+
+<img width="626" height="716" alt="Task 4 — Credential Hygiene   Access Keys" src="https://github.com/user-attachments/assets/12cfb240-af1c-4d14-8570-1494d13116f3" />
+
 
 ### Task 6 — Define a Role and Bind It (Least Privilege)
 A Role was created to only allow reading pods in the `dev` namespace, and it was bound to a developer test service account.
 
 ![Task 6 — Define a Role and Bind It (Least Privilege)](Task%206%20—%20Define%20a%20Role%20and%20Bind%20It%20(Least%20Privilege).png)
 
+<img width="555" height="280" alt="Task 6 — Define a Role and Bind It (Least Privilege)" src="https://github.com/user-attachments/assets/933db7cc-6478-4671-90b6-05f68bfe2f8c" />
+
+
+
 ### Task 7 — Test That Access Control Works
 We verified the boundaries using `kubectl auth can-i`. The service account successfully authenticated, but authorization blocked the delete action and access to the `prod` namespace.
 
 ![Task 7 — Test That Access Control Works](Task%207%20—%20Test%20That%20Access%20Control%20Works.png)
 
+<img width="491" height="245" alt="Task 7 — Test That Access Control Works" src="https://github.com/user-attachments/assets/fa22c680-5fa9-4d54-8b0f-5fa5f83fa0ba" />
+
+
+
 ### Verification Command
 Proof of cluster RBAC role binding for the cluster.
 
-![3. Verification Command](3.%20Verification%20Command.png)
+![3. Verification Command](3.%20Verification%20Command.png)}
+
+<img width="547" height="312" alt="3  Verification Command" src="https://github.com/user-attachments/assets/11519521-a3ba-482b-a526-7721f9f3561d" />
+
 
 ---
 
 ## Short-Answer Questions
 
 **Q1. Why is attaching policies to groups better than attaching them directly to users?**
-It makes managing permissions much easier and scalable. Instead of updating policies for every single user, you simply attach the policy to a group once. When a user joins or leaves a team, you only need to add or remove them from the group, and their permissions update automatically. This ensures permissions remain manageable and auditable at scale.
+
+Attaching policies to groups is easier to manage. You only need to assign permissions to the group, and all users in that group automatically get the same permissions. This saves time and keeps permissions consistent.
 
 **Q2. What is the difference between an IAM User and an IAM Role?**
-An **IAM User** represents a specific individual or application and typically has long-term credentials (password or access keys). An **IAM Role** is a temporary identity that doesn't have long-term credentials; instead, it provides temporary access and can be "assumed" by users, applications, or services when needed.
+
+
+IAM User: A permanent identity for a person or application with its own username and password or access keys.
+
+IAM Role: A temporary identity that is assumed when needed. It does not have permanent login credentials.
+
 
 **Q3. Explain least privilege using the Analyst account, and how it reduces blast radius if compromised.**
-Least privilege means granting only the exact permissions needed for a job and nothing more. The Analyst account only requires reading data, so it was strictly given a read-only policy. This reduces the blast radius because if an attacker steals the Analyst credentials, the damage is limited to just viewing data—they cannot delete resources, create expensive infrastructure, or change configurations. 
+
+
+The Analyst account only has the permissions needed to do its job, such as viewing data. It cannot delete or change important resources. If the account is hacked, the attacker can only perform limited actions, reducing the damage (blast radius).
+
 
 **Q4. In Kubernetes, what is the difference between a Role and a RoleBinding?**
-A **Role** defines the rules (the permissions), specifying *what* actions are allowed on *which* resources (e.g., allow `get` and `list` on `pods`). A **RoleBinding** assigns that Role to specific users or service accounts, answering *who* gets those permissions.
+
+
+Role: Defines what actions are allowed, such as reading pods.
+
+RoleBinding: Connects the Role to a user, group, or service account so they receive those permissions.
+
+
 
 **Q5. Why did the developer service account fail to access prod, and which security principle does that demonstrate?**
-The service account failed to access `prod` because its RoleBinding only granted permissions within the `dev` namespace. This perfectly demonstrates the **Principle of Least Privilege**, as the platform enforced that the developer could only access what they explicitly needed, keeping `prod` strictly off-limits.
+
+The developer service account failed because it did not have permission to access the production (prod) environment. This demonstrates the Principle of Least Privilege, where accounts only receive the permissions they need for their work.
+
 
 ---
 
