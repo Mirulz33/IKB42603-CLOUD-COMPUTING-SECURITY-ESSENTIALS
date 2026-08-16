@@ -131,6 +131,10 @@ EOF
 > **Security Note:** Disabling the default CNI prevents automatic pod routing until Calico pods and CRDs are registered, ensuring no unmonitored traffic flows during boot.
 
 ![Kind Cluster Setup & ISO Initialization](<setup the iso.png>)
+
+<img width="687" height="286" alt="image" src="https://github.com/user-attachments/assets/60ccf343-c13b-43ef-a9d8-9fb23fff98eb" />
+
+
 *Figure 1: Initialization attempt and configuration check for Kind cluster `ccse-lab2`.*
 
 ---
@@ -144,6 +148,9 @@ kubectl -n kube-system rollout status daemonset/calico-node --timeout=180s
 Calico installs custom resource definitions (CRDs), `calico-node` daemonsets across all worker nodes, and `calico-kube-controllers` to intercept and manage packet filtering through Linux kernel `iptables` / eBPF data planes.
 
 ![Calico DaemonSet Rollout Verification](<validate kube-system rollout.png>)
+
+<img width="682" height="185" alt="image" src="https://github.com/user-attachments/assets/e7bffc17-fdfc-46e4-963e-ae0282910c14" />
+
 *Figure 2: Calico CNI components installed and daemonset `calico-node` successfully rolled out in `kube-system`.*
 
 ---
@@ -177,6 +184,9 @@ kubectl get pods,svc -n kim-b
 - Tenant B (`kim-b`): Pod `web-7887448d46-bctq2` (Running) | Service `web` (`10.96.129.140:80/TCP`)
 
 ![Task 1: Workloads Running in Tenant Namespaces](<Task 1 — Two Tenants on One Cluster.png>)
+
+<img width="607" height="682" alt="image" src="https://github.com/user-attachments/assets/e309b8ad-5fcc-4936-9af4-62283dbcab84" />
+
 *Figure 3: Deployment of isolated tenant namespaces (`mii-a`, `kim-b`) with active web pods and ClusterIP services.*
 
 ---
@@ -200,6 +210,9 @@ kubectl -n mii-a run probe --rm -it --image=curlimages/curl --restart=Never \
 The probe returns **`HTTP 200`**, proving that Tenant A was able to access Tenant B's private internal HTTP service without authentication or authorization. In an unconfigured multi-tenant environment, an attacker compromising one tenant container can freely pivot and snoop on adjacent tenant workloads.
 
 ![Task 2: Default-Open Cross-Tenant Access](<Task 2 — Observe the Default-Open Risk.png>)
+
+<img width="690" height="255" alt="image" src="https://github.com/user-attachments/assets/f1272619-1374-480e-ab09-6e0b0055e195" />
+
 *Figure 4: Inter-tenant probe execution resulting in `HTTP 200`, demonstrating the critical default-open security risk.*
 
 ---
@@ -232,6 +245,9 @@ kubectl describe resourcequota mii-a-quota -n mii-a
 ```
 
 ![Task 3: ResourceQuota Enforcement](<Task 3 — Contain the Noisy Neighbour (Resource Quotas).png>)
+
+<img width="482" height="447" alt="image" src="https://github.com/user-attachments/assets/8ad5299a-1e66-44eb-a5a4-5c8ce11d115c" />
+
 *Figure 5: `ResourceQuota` created in `mii-a`, limiting total pods to 5, CPU to 1 core, and memory requests to 512Mi.*
 
 ---
@@ -265,6 +281,9 @@ kubectl -n mii-a run probe --rm -it --image=curlimages/curl --restart=Never \
 As shown in the output, applying the default-deny ingress policy prevents unsolicited cross-namespace access. Furthermore, due to the ResourceQuota configured in Task 3, any un-budgeted pod launched in `mii-a` without explicit CPU/Memory request parameters is strictly forbidden by the Kubernetes admission controller, reinforcing multi-layered defense.
 
 ![Task 4: Default-Deny Ingress Policy Verification](<Task 4 — Default-Deny Network Isolation.png>)
+
+<img width="642" height="442" alt="image" src="https://github.com/user-attachments/assets/3aa7a541-f5fa-45d0-904c-80edb4d6e141" />
+
 *Figure 6: Application of `default-deny-ingress` on `kim-b` and admission controller quota check.*
 
 ---
@@ -287,6 +306,9 @@ kubectl -n mii-a create role reader --verb=get --resource=secrets
 ```
 
 ![Task 5: Secret and RBAC Role Creation](<Task 5 — Storage & Secret Isolation [art 1.png>)
+
+<img width="641" height="377" alt="image" src="https://github.com/user-attachments/assets/85a6df4b-7adf-42aa-9eae-2a2e18b15ce4" />
+
 *Figure 7: Creation of namespaced secrets and RBAC `reader` role.*
 
 ---
@@ -309,6 +331,11 @@ kubectl auth can-i get secrets -n kim-b --as=$SA
 The authorization probe confirms that the tenant's ServiceAccount is strictly confined to its assigned namespace, proving RBAC-enforced storage and secret isolation.
 
 ![Task 5: RBAC Isolation Verification](<Task 5 — Storage & Secret Isolation part2.png>)
+
+<img width="641" height="377" alt="Task 5 — Storage   Secret Isolation  art 1" src="https://github.com/user-attachments/assets/26681efb-d9e6-479a-8dcd-53ad9eadec24" />
+
+<img width="657" height="477" alt="image" src="https://github.com/user-attachments/assets/4c5ffbf9-4a60-4ed7-8290-84cedcb02aad" />
+
 *Figure 8: Proof of secret isolation via `kubectl auth can-i` queries.*
 
 ---
@@ -335,6 +362,9 @@ docker run --rm -v ccse-vol:/data alpine sh -c \
 *Result:* 1024 bytes (1.0 KB) explicitly overwritten with zero-bytes (`dd if=/dev/zero`) before inode destruction, completely obliterating magnetic/flash data persistence.
 
 ![Task 6: Data Remanence & Secure Wipe Execution](<Task 6 — Data Remanence & Secure Deletion.png>)
+
+<img width="685" height="472" alt="image" src="https://github.com/user-attachments/assets/0a400545-9100-4377-9337-8878f838f477" />
+
 *Figure 9: Docker volume execution demonstrating file creation, unsecure deletion, and secure byte overwrite (`dd if=/dev/zero`).*
 
 ---
@@ -364,6 +394,9 @@ EOF
 ```
 
 ![Advanced Task 1: Default-Deny Egress Policy](<Default-Deny Egress advanced.png>)
+
+<img width="532" height="273" alt="image" src="https://github.com/user-attachments/assets/27738371-0ab4-493e-9652-3408dea99903" />
+
 *Figure 10: Creation of `default-deny-egress` network policy in namespace `mii-a`.*
 
 ---
@@ -400,6 +433,9 @@ EOF
 ```
 
 ![Advanced Task 2: CoreDNS Egress Whitelisting](<Allow DNS advanced.png>)
+
+<img width="508" height="473" alt="image" src="https://github.com/user-attachments/assets/daccf845-8892-4e55-a528-9a1bb09f6a1d" />
+
 *Figure 11: Application of `allow-dns` egress policy permitting internal name resolution to `kube-system` DNS pods on port 53.*
 
 ---
@@ -417,6 +453,9 @@ kubectl get svc -n kim-b
 *(Backend service assigned ClusterIP `10.96.101.139:80/TCP`)*
 
 ![Advanced Task 3: Backend Deployment](<Allow ONE specific service part 1 advanced.png>)
+
+<img width="647" height="365" alt="image" src="https://github.com/user-attachments/assets/37b0d892-96db-4358-ac3f-969805d40db6" />
+
 *Figure 12: Deployment of unprivileged backend workload and service in `kim-b`.*
 
 ---
@@ -448,6 +487,10 @@ EOF
 ```
 
 ![Advanced Task 3: Allow Specific Service Egress](<Allow ONE specific service part 2 advanced.png>)
+
+
+<img width="512" height="412" alt="image" src="https://github.com/user-attachments/assets/f6d3c7ef-9a3c-4d6f-b9af-001c99b2afc9" />
+
 *Figure 13: Configuration of fine-grained micro-segmentation rule `allow-backend` targeting `kim-b` backend pods.*
 
 ---
@@ -470,6 +513,9 @@ kubectl get ns --show-labels | grep -E "mii|kim"
 ```
 
 ![Advanced Task 4: Pod Security Standards Enforcement](<Enable Restricted Pod Security advanced.png>)
+
+<img width="648" height="722" alt="image" src="https://github.com/user-attachments/assets/39e0ac7e-0969-48b9-8216-4ffffcb89a78" />
+
 *Figure 14: Enforcing `restricted` pod security standard labels on namespaces `mii-a` and `kim-b`.*
 
 ---
@@ -506,6 +552,9 @@ kubectl -n mii-a run app-a \
 ```
 
 ![Advanced Task 5: Hardened Pod Creation](<Create test pods advanced.png>)
+
+<img width="462" height="612" alt="image" src="https://github.com/user-attachments/assets/93125c44-472e-4676-8aed-0350cbdb139a" />
+
 *Figure 15: Successful provisioning of hardened non-root container conforming to the Restricted Pod Security profile.*
 
 ---
@@ -546,6 +595,9 @@ kubectl get globalnetworkpolicy
 ```
 
 ![Advanced Task 6: Calico GlobalNetworkPolicy](<Calico GlobalNetworkPolicy advaced.png>)
+
+<img width="593" height="597" alt="image" src="https://github.com/user-attachments/assets/ee3cd6cb-63df-4291-b3c1-0a92bcb6b3dd" />
+
 *Figure 16: Creation of cluster-wide `GlobalNetworkPolicy` (`tenant-isolation`) applied across multiple tenant namespaces.*
 
 ---
@@ -571,6 +623,9 @@ kubectl get pods -A
 - Cluster status: All CoreDNS, Calico node, controller, and tenant pods operating in state `Running`.
 
 ![Advanced Task 7: Complete Isolation Verification](<Test the isolation advanced part 1.png>)
+
+<img width="635" height="642" alt="image" src="https://github.com/user-attachments/assets/de8c336a-e32e-4a79-8152-edb8a3f52efb" />
+
 *Figure 17: Comprehensive verification showing all active NetworkPolicies, GlobalNetworkPolicy, and cluster pod states.*
 
 ---
@@ -579,68 +634,88 @@ kubectl get pods -A
 
 ### Q1. Why can containers in different namespaces reach each other by default, and why is that dangerous in multi-tenant cloud?
 **Answer:**
-By design, standard Kubernetes networking follows a flat IP model governed by the Container Network Interface (CNI) specification, wherein every pod receives a unique, routable IP address and all pods can communicate with any other pod across all namespaces without Network Address Translation (NAT) or firewall restrictions. 
+By default, Kubernetes namespaces mainly separate and organize resources. They do not automatically block network communication between namespaces. Therefore, a container in one namespace can usually communicate with a container in another namespace.
 
-In a multi-tenant cloud, namespaces provide merely **logical organizational boundaries** (scoping names and RBAC) rather than physical or network boundaries. This default-open model is extremely dangerous because:
-1. **Lateral Movement:** If an attacker compromises a single container in Tenant A (e.g., via a web vulnerability), they can immediately scan and exploit private internal microservices, databases, and admin interfaces hosted by Tenant B on the same cluster.
-2. **Denial of Service & Snooping:** Attackers can flood other tenants' endpoints or eavesdrop on unencrypted plaintext traffic running across the shared software bridge.
+This is dangerous in a multi-tenant cloud because different customers may use the same cluster. If one tenant is compromised, the attacker could potentially communicate with another tenant's services. This can lead to data leakage or unauthorized access.
 
 ---
 
 ### Q2. Explain the default-deny principle and how your NetworkPolicy implements it.
 **Answer:**
-The **Default-Deny Principle** (also known as Zero-Trust or Fail-Safe Defaults) states that all access and communication paths must be blocked by default, and only explicitly approved, authenticated, and verified traffic is permitted by exception.
+Default-deny means that all network traffic is blocked unless it is specifically allowed.
 
-In our implementation:
-- The `default-deny-ingress` policy selects all pods within the tenant namespace (`podSelector: {}`) and declares `policyTypes: [Ingress]`. Because no ingress rules (`ingress: []`) are defined, the CNI kernel packet filter immediately drops all incoming SYN packets destined for those pods.
-- Similarly, `default-deny-egress` prevents pods from sending outbound packets unless an explicit whitelist rule (such as `allow-dns` or `allow-backend`) matches the destination namespace, pod label, and port.
+Our NetworkPolicy first blocks outgoing traffic from the tenant: Tenant → Everything = BLOCKED
+
+Then we create rules to allow only the required traffic, such as:
+Tenant → DNS = ALLOWED
+Tenant → Specific backend service = ALLOWED
+Tenant → Other services/Internet = BLOCKED
+
+This follows the least privilege principle because the tenant can only communicate with services that are explicitly allowed.
 
 ---
 
 ### Q3. How do virtual machines and containers differ in isolation strength? When would you add a VM boundary?
+
 **Answer:**
+| Virtual Machine (VM) | Container |
+|---|---|
+| Has its own operating system and kernel. | Shares the host's kernel. |
+| Provides stronger isolation. | Provides lighter isolation. |
+| Uses more CPU, memory, and storage. | Uses fewer resources and starts faster. |
+| Good for highly sensitive or untrusted workloads. | Good for normal applications and microservices. |
+| Provides an extra security boundary between workloads. | Has less isolation because the kernel is shared. |
 
-| Isolation Dimension | Containers (e.g., Docker, Kubernetes) | Virtual Machines (e.g., KVM, VMware ESXi) |
-| :--- | :--- | :--- |
-| **Kernel Model** | Shared host OS kernel via Linux namespaces and cgroups | Independent guest OS kernel running on virtualized hardware |
-| **Isolation Boundary** | Logical separation mediated by kernel system call filtering | Hardware-assisted hypervisor boundary (Intel VT-x, AMD-V) |
-| **Attack Surface** | Broad shared kernel syscall surface; kernel vulnerabilities can lead to host compromise | Narrow hypervisor trap interface; guest escape requires hypervisor exploit |
-| **Performance Overhead** | Near zero overhead; instant startup | Moderate virtualization overhead; longer boot times |
+**When to add a VM boundary:**  
+I would use a VM when workloads are highly sensitive, untrusted, or belong to different customers and stronger isolation is required.
 
-**When to add a VM boundary:**
-A VM boundary (or micro-VM runtime such as AWS Firecracker, Kata Containers, or gVisor sandbox) must be added when:
-1. Running **untrusted or multi-tenant arbitrary user code** where kernel-level isolation is insufficient.
-2. Meeting strict compliance mandates (e.g., PCI-DSS, HIPAA, FedRAMP High) requiring hardware-level tenancy separation.
-3. Preventing kernel privilege escalation (e.g., Dirty COW, CVE-2022-0847 Dirty Pipe) from granting full host takeover.
+**Easy to remember:**
+
+- **VM = Stronger isolation**
+- **Container = Faster and lighter**
 
 ---
 
 ### Q4. What is data remanence, and why is cryptographic erasure the preferred cloud solution?
 **Answer:**
+
 **Data Remanence** refers to residual digital data that remains on physical or virtual storage media after nominal file deletion or release operations have been performed. In standard operating systems, executing `rm` merely deletes directory pointers and marks inode blocks as available; the actual data bits persist on disk until overwritten.
 
 **Why Cryptographic Erasure (Crypto-Shredding) is Preferred in the Cloud:**
-1. **Lack of Physical Block Control:** In multi-tenant cloud storage (e.g., AWS EBS, S3, Azure Blob, Ceph), storage is abstracted across large distributed arrays. Cloud consumers have no direct access to underlying physical drive tracks or flash cells to perform multi-pass block overwrites (`dd` / DoD 5220.22-M).
-2. **Flash Wear & Copy-on-Write (CoW):** Modern Solid-State Drives (SSDs) and enterprise filesystems (ZFS, Ceph) use wear-leveling and CoW, meaning overwriting a logical sector writes to a *new physical sector*, leaving the old data intact elsewhere in flash memory.
-3. **Instantaneous & Verifiable Sanitization:** By encrypting all data with a unique per-tenant Key Encryption Key (KEK) and cryptographically destroying/zeroizing that key, the stored ciphertext is rendered mathematically unrecoverable ($2^{256}$ brute-force complexity), achieving instantaneous, compliant, and total data sanitization across globally replicated cloud storage.
+Data remanence means that some data may still remain on storage even after a file is deleted.
+
+For example:
+
+Create file → Delete file → Some data may still remain
+
+In cloud environments, physical storage is usually shared and managed by the cloud provider, so completely physically destroying the storage is difficult.
+
+Cryptographic erasure solves this by destroying the encryption key used to protect the data. Without the key, the remaining encrypted data becomes practically useless.
+So:
+Delete encryption key → Encrypted data cannot be read
+This is faster and more practical for cloud environments
+
 
 ---
 
 ### Q5. Which of the three isolation dimensions (compute, network, storage) did each task exercise?
 **Answer:**
+| Task | Isolation Dimension | Simple Explanation |
+|---|---|---|
+| Pod Security / Restricted | **Compute** | Controls what a container is allowed to do on the system. |
+| NetworkPolicy | **Network** | Controls which pods or services can communicate with each other. |
+| GlobalNetworkPolicy | **Network** | Provides network isolation between tenants across the cluster. |
+| Docker volume / file wiping | **Storage** | Protects and removes data from storage. |
+| VM vs Container isolation | **Compute** | Shows that VMs provide stronger isolation than containers. |
 
-| Task / Lab Phase | Primary Dimension | Specific Security Mechanism Exercised |
-| :--- | :--- | :--- |
-| **Task 1: Namespaces & Deployments** | **Compute** | Namespace partitioning & logical tenant workload containerization. |
-| **Task 2: Default-Open Cross-Tenant Probe** | **Network** | Flat SDN network analysis & lack of traffic filtering discovery. |
-| **Task 3: Noisy Neighbour Resource Quotas** | **Compute** | CPU, Memory, and Pod Count limits (`ResourceQuota`) admission controls. |
-| **Task 4: Default-Deny Ingress** | **Network** | L3/L4 `NetworkPolicy` packet dropping on incoming namespace connections. |
-| **Task 5: RBAC & Per-Tenant Secrets** | **Storage & Identity** | Namespaced `Secret` access scoping via ServiceAccount and RoleBinding. |
-| **Task 6: Data Remanence & Secure Wipe** | **Storage** | Block persistence analysis, zero-byte overwrite (`dd`), and crypto-shredding. |
-| **Advanced Tasks 1–3: Egress & Micro-Segmentation** | **Network** | Default-deny egress, DNS whitelisting, and label-based inter-service routing. |
-| **Advanced Tasks 4–5: Pod Security Standards** | **Compute & Kernel** | Kernel capability dropping (`ALL`), non-root execution, and seccomp syscall filtering. |
-| **Advanced Task 6: GlobalNetworkPolicy** | **Network** | Centralized, cluster-wide multi-tenant firewall enforcement via Calico. |
+### Easy way to remember
 
+- **Compute** → What can the container **DO**?
+- **Network** → Who can the container **TALK TO**?
+- **Storage** → Who can **ACCESS THE DATA**?
+
+
+Overall: The tasks show that cloud security needs all three types of isolation: compute, network, and storage.
 ---
 
 ## 6. Security Best-Practices Checklist
