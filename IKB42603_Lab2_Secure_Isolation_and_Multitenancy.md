@@ -7,10 +7,15 @@
 ### Course & Student Information
 - **Course Code:** IKB42603 (Cloud Computing Security Essentials)
 - **Institution:** Universiti Kuala Lumpur — Malaysian Institute of Information Technology (UniKL MIIT)
-- **Course Instructor:** Prof. Dr. Shahrulniza Musa
-- **Course Learning Outcome (CLO):** CLO2 — Construct secure cloud operations that safeguard data integrity
-- **Value / Skill Clusters:** VBE3 (Integrity) · SC8 (Integrated Problem-Solving)
-- **Document Type:** Step-by-Step Laboratory Report & Security Verification
+Course Information
+
+Course: IKB42603 Cloud Computing Security Essentials
+
+Lab: Lab 2 - Secure Isolation & Multi-Tenancy
+
+Name: Muhamed Hamirul Bin Mohd Bazri
+
+Date: 16 August 2026
 
 ---
 
