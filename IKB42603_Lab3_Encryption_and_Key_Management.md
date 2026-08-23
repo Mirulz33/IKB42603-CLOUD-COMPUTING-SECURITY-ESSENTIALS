@@ -6,9 +6,9 @@
 |---|---|
 | **Course** | IKB42603 Cloud Computing Security Essentials |
 | **Lab** | Lab 3 · Weeks 5–6 |
-| **Student** | Ahmad Hakim |
+| **Student** | MUHAMED HAMIRUL BIN MOHD BAZRI |
 | **Institution** | UniKL MIIT |
-| **Lecturer** | Prof. Dr. Shahrulniza Musa |
+
 
 ---
 
