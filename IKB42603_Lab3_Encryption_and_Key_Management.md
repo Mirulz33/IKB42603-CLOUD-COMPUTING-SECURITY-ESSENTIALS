@@ -5,10 +5,13 @@
 | | |
 |---|---|
 | **Course** | IKB42603 Cloud Computing Security Essentials |
-| **Lab** | Lab 3 · Weeks 5–6 |
-| **Student** | Ahmad Hakim |
+| **Lab** | Lab 3 Data Protection: Encryption & Key Management   |
+| **Student** | MUHAMED HAMIRUL BIN MOHD BAZRI |
 | **Institution** | UniKL MIIT |
-| **Lecturer** | Prof. Dr. Shahrulniza Musa |
+| **Date** | 23 August 2026 |
+
+
+
 
 ---
 
@@ -60,7 +63,7 @@ Symmetric encryption uses **one shared key** to both encrypt and decrypt data. W
 echo 'Patient: Ahmad Hakim, Diagnosis: confidential' > record.txt
 ```
 
-**Step 2:** Encrypt the file using AES-256-CBC with PBKDF2 key derivation (password used: `123456`).
+**Step 2:** Encrypt the file using AES-256-CBC with PBKDF2 key derivation (password used: `******`).
 ```bash
 openssl enc -aes-256-cbc -pbkdf2 -salt -in record.txt -out record.enc
 ```
@@ -80,6 +83,9 @@ diff record.txt record.dec.txt && echo 'MATCH: decryption successful'
 **Evidence — Task 1:**
 
 ![Task 1 — Symmetric Encryption (Data at Rest)](Task%201%20—%20Symmetric%20Encryption%20(Data%20at%20Rest).png)
+
+<img width="637" height="558" alt="Task 1 — Symmetric Encryption (Data at Rest)" src="https://github.com/user-attachments/assets/f3569a97-6e66-4391-a4f7-6cd14bb4151f" />
+
 
 **Result:** The terminal shows `MATCH: decryption successful` — confirming the file was encrypted and then correctly decrypted back to its original content.
 
@@ -123,6 +129,9 @@ openssl dgst -sha256 -verify public.pem -signature record.sig record.txt
 
 ![Task 2 — Asymmetric Encryption & Digital Signatures](Task%202%20—%20Asymmetric%20Encryption%20&%20Digital%20Signatures.png)
 
+<img width="642" height="423" alt="Task 2 — Asymmetric Encryption   Digital Signatures" src="https://github.com/user-attachments/assets/1bb3d6f1-b540-4031-8f46-bf72e5409fdc" />
+
+
 **Result:** The terminal shows `Verified OK` — confirming that the digital signature is valid and the file has not been tampered with.
 
 ---
@@ -149,6 +158,9 @@ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem \
 
 ![Task 3 — Encryption in Transit (TLS) part 1](Task%203%20—%20Encryption%20in%20Transit%20(TLS)%20part%201.png)
 
+<img width="643" height="640" alt="Task 3 — Encryption in Transit (TLS) part 1" src="https://github.com/user-attachments/assets/5bf27d22-0feb-41b6-98f2-10d15e149f59" />
+
+
 **Step 3:** Configure NGINX to use HTTPS (SSL) by writing a custom `nginx.conf`.
 ```nginx
 server {
@@ -169,6 +181,9 @@ server {
 
 ![Task 3 — Encryption in Transit (TLS) part 3](Task%203%20—%20Encryption%20in%20Transit%20(TLS)%20part%203.png)
 
+<img width="426" height="257" alt="Task 3 — Encryption in Transit (TLS) part 3" src="https://github.com/user-attachments/assets/f4f07aa2-2d98-4a8c-b74c-c26e4c963708" />
+
+
 **Step 4:** Launch the NGINX container with TLS (HTTPS on port 8443), pulling the nginx image and mounting the certificate, key, and record file.
 ```bash
 docker run -d --name tls \
@@ -185,6 +200,12 @@ docker run -d --name tls \
 ![Task 3 — Encryption in Transit (TLS) part 2](Task%203%20—%20Encryption%20in%20Transit%20(TLS)%20part%202.png)
 
 ![Task 3 — Encryption in Transit (TLS) part 4](Task%203%20—%20Encryption%20in%20Transit%20(TLS)%20part%204.png)
+
+<img width="660" height="365" alt="Task 3 — Encryption in Transit (TLS) part 2" src="https://github.com/user-attachments/assets/c8146c9f-758b-4bfa-9217-855151125de2" />
+
+<img width="611" height="298" alt="Task 3 — Encryption in Transit (TLS) part 4" src="https://github.com/user-attachments/assets/2d640999-165f-48d9-b722-b28e55759025" />
+
+
 
 **Step 5:** Access the file securely over HTTPS using `curl`.
 ```bash
@@ -223,14 +244,16 @@ aws $EP kms create-key --description 'CCSE mii-A master key'
 
 ![Task 4 — Create and Use a KMS Master Key part 1](Task%204%20—%20Create%20and%20Use%20a%20KMS%20Master%20Key%20part%201.png)
 
+<img width="641" height="468" alt="Task 4 — Create and Use a KMS Master Key part 1" src="https://github.com/user-attachments/assets/10a6182e-4d8d-474f-8d09-dc502c0f8217" />
+
 The key was created with:
-- **KeyId:** `99831018-7895-484e-947b-d79cf9bf923c`
+- **KeyId:** `*********************************`
 - **KeyState:** `Enabled`
 - **KeyUsage:** `ENCRYPT_DECRYPT`
 
 **Step 3:** Save the KeyId and encrypt a small secret directly with KMS.
 ```bash
-KEY_A=99831018-7895-484e-947b-d79cf9bf923c
+KEY_A=*******************************
 aws $EP kms encrypt --key-id $KEY_A \
   --plaintext "$(echo -n 'hello' | base64)" \
   --query CiphertextBlob --output text
@@ -239,6 +262,9 @@ aws $EP kms encrypt --key-id $KEY_A \
 **Evidence — Task 4 Part 2 (KMS encrypt output):**
 
 ![Task 4 — Create and Use a KMS Master Key part 2](Task%204%20—%20Create%20and%20Use%20a%20KMS%20Master%20Key%20part%202.png)
+
+<img width="648" height="207" alt="Task 4 — Create and Use a KMS Master Key part 2" src="https://github.com/user-attachments/assets/13652d74-8b21-438e-ab79-f7c81694c3c1" />
+
 
 **Result:** KMS returned a **CiphertextBlob** — a Base64-encoded encrypted blob. The plaintext `hello` is now encrypted under the KMS master key.
 
@@ -292,25 +318,14 @@ echo 'Only the KMS-wrapped data key (datakey.enc) remains.'
 
 ![Task 5 — Envelope Encryption](Task%205%20—%20Envelope%20Encryption.png)
 
+<img width="487" height="620" alt="Task 5 — Envelope Encryption" src="https://github.com/user-attachments/assets/70895779-da58-4952-a28b-2e99d4ab8d57" />
+
+
 **Result:** `record.env.enc` was created (64 bytes, encrypted). The plaintext data key was deleted. Only `datakey.enc` (the KMS-wrapped key) remains on disk. To decrypt the data later, you must send `datakey.enc` back to KMS to unwrap it.
 
 ---
 
-**📝 Short-Answer Question (from Task 5):**
 
-> **Q3: Explain envelope encryption and why only the master key needs hardware-grade protection.**
-
-**Answer:**
-Envelope encryption is a two-layer system:
-- The **data key** encrypts your actual data (local, fast).
-- The **master key** encrypts/protects the data key (stored in KMS).
-
-Only the master key needs hardware-grade protection (like an HSM — Hardware Security Module) because:
-- There is only **one master key** to protect, not thousands of data keys.
-- If the master key is safe, all data keys wrapped by it are also safe.
-- Even if an attacker steals the encrypted data + encrypted data key, they cannot decrypt anything without the master key in KMS.
-
----
 
 ### Task 6 — Per-Tenant Keys & Cryptographic Erasure
 
@@ -322,7 +337,7 @@ In a multi-tenant cloud, each customer (tenant) should have their **own separate
 **Step 1:** Create a second KMS key for Tenant B.
 ```bash
 aws $EP kms create-key --description 'CCSE kim-B master key'
-KEY_B=8a1fc61f-1a96-40df-9315-91f5ab28a797
+KEY_B=*************************
 ```
 
 **Step 2:** Check Tenant A's key state (currently still `Enabled`).
@@ -337,6 +352,9 @@ aws $EP kms describe-key \
 
 ![Task 6 — Per-Tenant Keys & Cryptographic Erasure part 1](Task%206%20—%20Per-Tenant%20Keys%20&%20Cryptographic%20Erasure%20part%201.png)
 
+<img width="705" height="696" alt="Task 6 — Per-Tenant Keys   Cryptographic Erasure part 1" src="https://github.com/user-attachments/assets/c312a1c8-80a2-431e-b120-d63db0c2a876" />
+
+
 **Step 3:** Schedule deletion of Tenant A's key (7-day pending window), then verify the state changed to `PendingDeletion`. Cancel the deletion to restore.
 ```bash
 aws $EP kms schedule-key-deletion --key-id $KEY_A --pending-window-in-days 7
@@ -349,6 +367,9 @@ aws $EP kms cancel-key-deletion --key-id $KEY_A
 **Evidence — Task 6 Part 2 (schedule deletion → PendingDeletion state → cancel):**
 
 ![Task 6 — Per-Tenant Keys & Cryptographic Erasure part 2](Task%206%20—%20Per-Tenant%20Keys%20&%20Cryptographic%20Erasure%20part%202.png)
+
+<img width="712" height="528" alt="Task 6 — Per-Tenant Keys   Cryptographic Erasure part 2" src="https://github.com/user-attachments/assets/b5a5770f-5d1f-4a75-9e36-6d131049802b" />
+
 
 **Step 4:** Disable the key immediately to simulate cryptographic erasure, then attempt to decrypt — it should fail.
 ```bash
@@ -363,6 +384,9 @@ aws $EP kms decrypt --ciphertext-blob fileb://datakey.enc 2>&1 | head -3
 
 ![Task 6 — Per-Tenant Keys & Cryptographic Erasure part 3](Task%206%20—%20Per-Tenant%20Keys%20&%20Cryptographic%20Erasure%20part%203.png)
 
+<img width="710" height="617" alt="Task 6 — Per-Tenant Keys   Cryptographic Erasure part 3" src="https://github.com/user-attachments/assets/db097f73-a835-428e-9ed7-5db6a027e83e" />
+
+
 **Result:**
 - Key state changed to `Disabled`.
 - The `aws kms decrypt` command returned an **error**: `An error occurred (NotFoundException) when calling the Decrypt operation: Invalid keyId`.
@@ -370,14 +394,6 @@ aws $EP kms decrypt --ciphertext-blob fileb://datakey.enc 2>&1 | head -3
 
 ---
 
-**📝 Short-Answer Question (from Task 6):**
-
-> **Q4: How does cryptographic erasure achieve provable deletion where overwriting cannot (in the cloud)?**
-
-**Answer:**
-In the cloud, when you delete a file, copies may still exist in backups, snapshots, or replicas — so "deleting" the file doesn't really erase all copies.
-
-With **cryptographic erasure**, instead of deleting the data, you **destroy the encryption key**. Since the data is encrypted, without the key it is just meaningless noise — even if copies exist in backups, **no one can read it**. This makes deletion **provable**: you can mathematically prove the data is unrecoverable because the key no longer exists.
 
 ---
 
@@ -413,6 +429,9 @@ done
 
 ![Task 7 — Integrity & Tamper-Evidence](Task%207%20—%20Integrity%20&%20Tamper-Evidence.png)
 
+<img width="662" height="423" alt="Task 7 — Integrity   Tamper-Evidence" src="https://github.com/user-attachments/assets/36a31e57-85f4-4d56-a15d-d52d1e82c07c" />
+
+
 **Result:**
 | File | SHA-256 Hash |
 |---|---|
@@ -429,18 +448,6 @@ The two hashes are **completely different** — confirming that even a tiny chan
 
 ---
 
-**📝 Short-Answer Question (from Task 7):**
-
-> **Q5: How does a hash chain make a log tamper-evident?**
-
-**Answer:**
-In a hash chain, each log entry includes the **hash of the previous entry** plus the new content. This means:
-- Every entry depends on all entries before it.
-- If an attacker changes one entry (e.g., deletes a "file read" log), the hash of that entry changes.
-- This causes all hashes after it to also change.
-- Anyone can re-compute the chain and immediately notice the mismatch.
-
-This is exactly how blockchain and audit logs work — it makes tampering **detectable and provable**.
 
 ---
 
@@ -460,8 +467,11 @@ openssl dgst -sha256 -verify public.pem -signature record.sig record.txt
 
 ![Verification Command](Verification%20Command.png)
 
+<img width="716" height="406" alt="Verification Command" src="https://github.com/user-attachments/assets/36fc7c1a-0eaf-4492-9faa-70a93a8b0516" />
+
+
 **Result:**
-- `kms list-keys` returned **two keys**: Key A (`99831018-7895-484e-947b-d79cf9bf923c`) and Key B (`8a1fc61f-1a96-40df-9315-91f5ab28a797`) — confirming both tenant keys were created.
+- `kms list-keys` returned **two keys**: Key A (`*******-******-****_****`) and Key B (`********-*********-******`) — confirming both tenant keys were created.
 - `openssl dgst -sha256 -verify` returned `Verified OK` — confirming the digital signature from Task 2 is still valid.
 
 ---
@@ -476,6 +486,8 @@ openssl dgst -sha256 -verify public.pem -signature record.sig record.txt
 | **Keys** | One shared key (same for encrypt & decrypt) | Two keys: public (encrypt) + private (decrypt) |
 | **Key distribution problem** | Hard — must share the key securely | No problem — public key can be shared openly |
 | **Typical use** | Encrypting large files or databases (data at rest) | Key exchange, digital signatures, TLS handshake |
+| **Example** | AES | ECC, RSA |
+
 
 **In short:** Symmetric is faster and used for bulk data. Asymmetric is safer for sharing keys and proving identity. In practice, they are **used together** (e.g., TLS uses asymmetric to exchange a symmetric session key).
 
@@ -484,29 +496,100 @@ openssl dgst -sha256 -verify public.pem -signature record.sig record.txt
 ### Q2 — Why is key management described as the weakest link, not the algorithm?
 
 **Answer:**
-Modern encryption algorithms like AES-256 are mathematically unbreakable with current technology. The weakness is not the algorithm — it is **how the keys are stored, shared, and protected**.
+A strong encryption algorithm is useless if the **key is stolen, lost, or badly managed**.
 
-If the key is:
-- Saved in a plain text file → anyone who accesses the file can decrypt everything.
-- Hard-coded in source code → attackers who steal the code get the key.
-- Not rotated regularly → old compromised keys remain dangerous.
+| Good Encryption Algorithm | Bad Key Management |
+|---|---|
+| Strong AES encryption | Key stored in a public folder |
+| Difficult to break mathematically | Attacker steals the key |
+| Data is protected | Attacker can decrypt the data |
 
-The algorithm can be perfect, but if the key is stolen or mismanaged, all data is exposed. This is why KMS (Key Management Service) exists — to handle keys securely so humans don't make mistakes.
+Easy example
 
+Imagine you have a very strong safe, but you leave the key under the door mat.
+
+The safe is strong, but the protection is useless because the key was badly managed.
+
+Common key-management problems
+Key is exposed or stolen
+Weak access control
+Key stored together with encrypted data
+No key rotation
+Key accidentally deleted
+Too many people have access
 ---
 
 ### Q3 — Explain envelope encryption and why only the master key needs hardware-grade protection.
-*(Answered in Task 5 above)*
+
+Envelope encryption is a two-layer system:
+- The **data key** encrypts your actual data (local, fast).
+- The **master key** encrypts/protects the data key (stored in KMS).
+
+Only the master key needs hardware-grade protection (like an HSM — Hardware Security Module) because:
+- There is only **one master key** to protect, not thousands of data keys.
+- If the master key is safe, all data keys wrapped by it are also safe.
+- Even if an attacker steals the encrypted data + encrypted data key, they cannot decrypt anything without the master key in KMS.
+
+---
 
 ---
 
 ### Q4 — How does cryptographic erasure achieve provable deletion where overwriting cannot (in the cloud)?
-*(Answered in Task 6 above)*
+In cloud environments, simply overwriting a file can be difficult to prove because the cloud provider may have:
 
+- Backups
+- Replicas
+- Snapshots
+- Other storage copies
+
+You may delete the visible file, but you cannot easily prove that **every copy was overwritten**.
+
+Cryptographic Erasure
+
+Instead of destroying every copy of the data:
+
+> **Destroy the encryption key that can decrypt the data.**
+
+text
+
+Encrypted Data
+      +
+Encryption Key
+      ↓
+Readable Data
+
+
+If the key is permanently destroyed:
+
+Encrypted Data
+
+      +
+
+❌ Key Destroyed
+
+      ↓
+
+Unreadable Data
+
+Comparison
+
+| Normal Deletion | Cryptographic Erasure |
+|---|---|
+| Delete or overwrite the data | Destroy the encryption key |
+| Cloud may still have copies | Copies remain encrypted |
+| Difficult to prove every copy is gone | Copies become unusable without the key |
+| Less certainty | Stronger deletion assurance |
+
+Simple answer
+
+Cryptographic erasure destroys the encryption key instead of trying to overwrite every copy of the data. Without the key, the encrypted data becomes unreadable.
 ---
 
+---
 ### Q5 — How does a hash chain make a log tamper-evident?
-*(Answered in Task 7 above)*
+
+**Answer:**
+A hash chain links each log to the previous hash. Changing one log changes its hash and breaks the chain, making tampering detectable.
 
 ---
 
@@ -565,4 +648,4 @@ The algorithm can be perfect, but if the key is stolen or mismanaged, all data i
 ---
 
 *Lab 3 Report — IKB42603 Cloud Computing Security Essentials*
-*UniKL MIIT · Prepared by Ahmad Hakim*
+
