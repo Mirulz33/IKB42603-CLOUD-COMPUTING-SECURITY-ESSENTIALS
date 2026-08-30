@@ -3,7 +3,13 @@
 **AuthN vs AuthZ, Network Segmentation and Host Hardening — Docker & Kubernetes**
 
 **Lab Sessions:** Week 7–8 | **Date:** 2026-08-31
-
+| | |
+|---|---|
+| **Course** | IKB42603 Cloud Computing Security Essentials |
+| **Lab** | Lab 4 — Access Control & Network Security   |
+| **Student** | MUHAMED HAMIRUL BIN MOHD BAZRI |
+| **Institution** | UniKL MIIT |
+| **Date** | 31 August 2026 |
 ---
 
 ## Objective
@@ -89,6 +95,9 @@ curl -s -u student:'P@ssw0rd!' http://localhost:8080
 
 ![Task 1 Evidence](Task 1 Authentication a Password-Protected Service.png)
 
+<img width="671" height="606" alt="Task 1 Authentication a Password-Protected Service" src="https://github.com/user-attachments/assets/e9352bcf-31a8-40f2-956e-74c1b09e22de" />
+
+
 #### Result
 
 | Test | Result |
@@ -127,6 +136,9 @@ fi
 #### Evidence
 
 ![Task 2 Evidence](Task 2 Add a Second Factor MFA TOTP.png)
+
+<img width="657" height="492" alt="Task 2 Add a Second Factor MFA TOTP" src="https://github.com/user-attachments/assets/7466f0a4-211c-4f28-a13f-d342d8464bf5" />
+
 
 #### Result
 
@@ -171,6 +183,9 @@ kubectl auth can-i delete pods  -n app --as=$SA   # expected: no
 #### Evidence
 
 ![Task 3 Evidence](Task 3 — Authorization RBAC Roles.png)
+
+<img width="620" height="660" alt="Task 3 — Authorization RBAC Roles" src="https://github.com/user-attachments/assets/54874dd3-b7fe-47ba-90c3-b88eb2dd5a59" />
+
 
 #### Result
 
@@ -218,6 +233,9 @@ docker run --rm --network backend-net alpine sh -c \
 
 ![Task 4 Evidence](Task 4 — Network Segmentation (Three-Tier).png)
 
+<img width="705" height="687" alt="Task 4 — Network Segmentation (Three-Tier)" src="https://github.com/user-attachments/assets/959d1ea1-ed83-4d07-808e-87f9cf2c1b14" />
+
+
 #### Result
 
 | Path | Result | Reason |
@@ -247,6 +265,9 @@ docker run --rm --cap-add=NET_ADMIN alpine sh -c '
 #### Evidence
 
 ![Task 5 Evidence](Task 5 — Firewall Rules (Default-Deny).png)
+
+<img width="725" height="347" alt="Task 5 — Firewall Rules (Default-Deny)" src="https://github.com/user-attachments/assets/26e7332b-769d-48df-a9a4-1995a3b17c93" />
+
 
 #### Observation
 
@@ -288,9 +309,16 @@ docker run --rm aquasec/trivy image --severity HIGH,CRITICAL nginx:alpine | head
 
 ![Task 6 Part 1 Evidence](Task 6 — Container Host Hardening part 1.png)
 
+
+<img width="652" height="362" alt="Task 6 — Container Host Hardening part 1" src="https://github.com/user-attachments/assets/4bc4e18c-f157-4ba5-b755-7db970310752" />
+
 #### Evidence — Part 2: Inspect & Trivy Scan
 
 ![Task 6 Part 2 Evidence](Task 6 — Container Host Hardening part 2.png)
+
+
+<img width="717" height="462" alt="Task 6 — Container Host Hardening part 2" src="https://github.com/user-attachments/assets/c342d834-3fc5-4515-8b3e-737e4cee95dc" />
+
 
 #### Hardening Measures Applied
 
@@ -319,6 +347,9 @@ User=1000:1000   ReadOnly=true
 #### Evidence
 
 ![Verification Commands Output](Verification Command.png)
+
+
+<img width="547" height="336" alt="Verification Command" src="https://github.com/user-attachments/assets/e3dc3e58-57f8-478d-a41a-54c2a28f0de8" />
 
 #### kubectl get rolebinding output
 
